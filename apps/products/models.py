@@ -8,3 +8,10 @@ class Product(BaseModel):
 
     def __str__(self):
         return self.name
+    
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'description': self.description,
+            'price': str(self.price),
+        }
