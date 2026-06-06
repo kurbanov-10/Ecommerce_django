@@ -2,5 +2,5 @@ from django.shortcuts import render
 from apps.products.models import Product
 
 def get_products(request):
-    products = [i.to_dict() for i in Product.objects.all()]
+    products = Product.objects.all()
     return render(request, "products/list.html", {"products":products})
