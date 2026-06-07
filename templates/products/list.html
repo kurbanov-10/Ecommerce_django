@@ -1,105 +1,231 @@
 {% extends "base.html" %}
+
+{% block title %}Products{% endblock %}
+
 {% block extra_css %}
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family: Arial, sans-serif;
-        }
 
-        body{
-            background:#f5f5f5;
-            padding:30px;
-        }
+<style>
+:root{
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --dark:#0f172a;
+    --muted:#64748b;
+}
 
-        h1{
-            text-align:center;
-            margin-bottom:30px;
-        }
+.products-section{
+    padding:80px 0;
+    background:linear-gradient(to bottom,#ffffff,#f8fafc);
+}
 
-        .products{
-            display:grid;
-            grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-            gap:20px;
-        }
+.section-title{
+    font-size:3rem;
+    font-weight:800;
+    color:var(--dark);
+}
 
-        .card{
-            background:#fff;
-            border-radius:12px;
-            padding:20px;
-            box-shadow:0 2px 10px rgba(0,0,0,.1);
-            transition:.3s;
-        }
+.section-subtitle{
+    color:var(--muted);
+    font-size:1.1rem;
+}
 
-        .card:hover{
-            transform:translateY(-5px);
-        }
+.product-card{
+    background:#fff;
+    border:none;
+    border-radius:24px;
+    overflow:hidden;
+    height:100%;
+    transition:.4s ease;
+    box-shadow:0 10px 30px rgba(15,23,42,.08);
+}
 
-        .category{
-            color:#666;
-            font-size:14px;
-            margin-bottom:10px;
-        }
+.product-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 25px 50px rgba(15,23,42,.15);
+}
 
-        .title{
-            font-size:20px;
-            font-weight:bold;
-            margin-bottom:10px;
-        }
+.product-image{
+    height:250px;
+    overflow:hidden;
+    position:relative;
+}
 
-        .desc{
-            color:#555;
-            margin-bottom:15px;
-        }
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.5s ease;
+}
 
-        .price{
-            color:green;
-            font-size:22px;
-            font-weight:bold;
-        }
-    </style>
+.product-card:hover .product-image img{
+    transform:scale(1.08);
+}
+
+.product-placeholder{
+    height:250px;
+    background:#f1f5f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.product-placeholder i{
+    font-size:80px;
+    color:#94a3b8;
+}
+
+.product-body{
+    padding:24px;
+}
+
+.category-badge{
+    display:inline-block;
+    background:#eff6ff;
+    color:var(--primary);
+    padding:6px 12px;
+    border-radius:50px;
+    font-size:.8rem;
+    font-weight:600;
+    margin-bottom:12px;
+}
+
+.product-title{
+    font-size:1.2rem;
+    font-weight:700;
+    color:var(--dark);
+    margin-bottom:10px;
+}
+
+.product-desc{
+    color:var(--muted);
+    line-height:1.7;
+    min-height:70px;
+}
+
+.product-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:20px;
+}
+
+.price{
+    font-size:1.5rem;
+    font-weight:800;
+    color:#16a34a;
+}
+
+.cart-btn{
+    background:var(--primary);
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:10px 16px;
+    transition:.3s;
+}
+
+.cart-btn:hover{
+    background:var(--primary-dark);
+}
+
+.empty-state{
+    text-align:center;
+    padding:100px 20px;
+}
+
+.empty-state i{
+    font-size:90px;
+    color:#cbd5e1;
+}
+</style>
+
 {% endblock %}
 
+{% block content %}
 
-    
-{%block content%}
-    <h1>Mahsulotlar</h1>
+<section class="products-section">
 
-    <div class="products">
+```
+<div class="container">
+
+    <div class="text-center mb-5">
+        <h1 class="section-title">
+            Our Products
+        </h1>
+
+        <p class="section-subtitle">
+            Discover premium products at the best prices
+        </p>
+    </div>
+
+    <div class="row g-4">
+
         {% for product in products %}
-        <div class="card">
+        <div class="col-sm-6 col-md-4 col-lg-3">
 
-            <div class="image">
+            <div class="product-card">
+
                 {% if product.icon %}
-                    <img src="{{ product.icon.url }}" alt="{{ product.name }}" style="width:100%; height:150px; object-fit:cover; border-radius:8px;">
+                <div class="product-image">
+                    <img src="{{ product.icon.url }}"
+                         alt="{{ product.name }}">
+                </div>
                 {% else %}
-                    <div style="width:100%; height:150px; background:#eee; display:flex; align-items:center; justify-content:center; border-radius:8px;">
-                        <i class="bi bi-image text-muted" style="font-size:48px;"></i>
-                    </div>
+                <div class="product-placeholder">
+                    <i class="bi bi-image"></i>
+                </div>
                 {% endif %}
-            </div>
-            
-            <div class="category">
-                {{ product.category.name }}
-            </div>
 
-            <div class="title">
-                {{ product.name }}
-            </div>
+                <div class="product-body">
 
-            <div class="desc">
-                {{ product.description|truncatewords:20 }}
-            </div>
+                    <span class="category-badge">
+                        {{ product.category.name }}
+                    </span>
 
-            <div class="price">
-                ${{ product.price }}
+                    <h5 class="product-title">
+                        {{ product.name }}
+                    </h5>
+
+                    <p class="product-desc">
+                        {{ product.description|truncatewords:15 }}
+                    </p>
+
+                    <div class="product-footer">
+
+                        <span class="price">
+                            ${{ product.price }}
+                        </span>
+
+                        <button class="cart-btn">
+                            <i class="bi bi-cart-plus"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
+
         {% empty %}
-        <p>Mahsulotlar mavjud emas.</p>
+
+        <div class="col-12">
+            <div class="empty-state">
+                <i class="bi bi-bag"></i>
+                <h3 class="mt-4">No Products Found</h3>
+                <p class="text-muted">
+                    Products will appear here once added.
+                </p>
+            </div>
+        </div>
+
         {% endfor %}
+
     </div>
 
-{%endblock %}
+</div>
+```
+
+</section>
+
+{% endblock %}
