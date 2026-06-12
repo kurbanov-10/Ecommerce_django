@@ -5,7 +5,7 @@ from apps.products.api_endpoints.products.ProductDetail.serializers import Produ
 from apps.products.models import Product
 
 @api_view(['GET'])
-def product_detail(request, pk):
+def product_detail_view(request, pk):
     try:
         product = Product.objects.get(pk=pk)
     except:

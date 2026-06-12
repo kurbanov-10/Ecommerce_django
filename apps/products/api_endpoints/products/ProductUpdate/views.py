@@ -5,7 +5,7 @@ from apps.products.api_endpoints.products.ProductUpdate.serializers import Produ
 from apps.products.models import Product
 
 @api_view(['PATCH', 'DELETE'])
-def update_product(request, pk):
+def update_product_view(request, pk):
     try:
         product = Product.objects.get(pk=pk)
     except Product.DoesNotExist:

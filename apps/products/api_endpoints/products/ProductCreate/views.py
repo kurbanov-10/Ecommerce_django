@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from apps.products.api_endpoints.products.ProductCreate.serializers import ProductCreateSerializer
 
 @api_view(['POST'])
-def create_product(request):
+def create_product_view(request):
     serializer = ProductCreateSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
