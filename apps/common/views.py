@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from apps.products.models import Product
-from apps.category.models import Category
+from apps.products.models import Category
 
 
 def home(request):

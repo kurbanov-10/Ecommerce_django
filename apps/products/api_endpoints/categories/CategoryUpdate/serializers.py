@@ -1,8 +1,7 @@
 from rest_framework import serializers
+from apps.products.models import Category
 
-from apps.category.models import Category
-
-class CategoryDetailSerializer(serializers.ModelSerializer):
+class CategoryUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
